@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>오시는 길 지도</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #ebdfca; }
+    .root_daum_roughmap { width: 100% !important; }
+    .fallback {
+      display: none;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      font: 15px/1.6 -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color: #6b5b4e;
+      text-align: center;
+    }
+    .fallback a { color: #8f5b1a; }
+    body.failed .fallback { display: flex; }
+  </style>
+</head>
+<body>
+  <!-- 카카오맵 '지도 퍼가기'(API 키 불필요). 로더가 document.write를 쓰므로 본문과 분리된 이 문서에서만 불러온다. -->
+  <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+  <div class="fallback">
+    <span>지도를 불러오지 못했습니다.</span>
+    <a id="fallback-link" href="https://map.kakao.com/" target="_blank" rel="noopener">카카오맵에서 보기</a>
+  </div>
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var ts = q.get('t') || '';
+      var key = q.get('k') || '';
+      var place = q.get('q') || '';
+      if (place) document.getElementById('fallback-link').href = 'https://map.kakao.com/?q=' + encodeURIComponent(place);
+      var fail = function () { document.body.classList.add('failed'); };
+      if (!/^\d+$/.test(ts) || !/^[a-z0-9]+$/i.test(key) || !window.daum || !daum.roughmap) return fail();
+      var box = document.createElement('div');
+      box.id = 'daumRoughmapContainer' + ts;
+      box.className = 'root_daum_roughmap root_daum_roughmap_landing';
+      document.body.appendChild(box);
+      try {
+        new daum.roughmap.Lander({
+          timestamp: ts,
+          key: key,
+          mapWidth: String(window.innerWidth),
+          mapHeight: String(Math.max(window.innerHeight - 34, 200))
+        }).render();
+      } catch (e) {
+        fail();
+      }
+    })();
+  </script>
+</body>
+</html>

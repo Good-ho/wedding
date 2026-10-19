@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="400" viewBox="0 0 200 400">
+  <g stroke="#cfe5ea" stroke-linecap="round" fill="none">
+    <path d="M14 20 L11 52" stroke-opacity=".7"/>
+    <path d="M42 96 L39 122" stroke-opacity=".5"/>
+    <path d="M66 12 L63 44" stroke-opacity=".6"/>
+    <path d="M88 150 L85 186" stroke-opacity=".75"/>
+    <path d="M112 60 L109 88" stroke-opacity=".5"/>
+    <path d="M136 210 L133 244" stroke-opacity=".7"/>
+    <path d="M158 30 L155 64" stroke-opacity=".65"/>
+    <path d="M180 120 L177 152" stroke-opacity=".55"/>
+    <path d="M24 176 L21 208" stroke-opacity=".6"/>
+    <path d="M52 250 L49 284" stroke-opacity=".7"/>
+    <path d="M78 300 L75 330" stroke-opacity=".5"/>
+    <path d="M102 250 L99 276" stroke-opacity=".6"/>
+    <path d="M124 330 L121 366" stroke-opacity=".7"/>
+    <path d="M146 140 L143 168" stroke-opacity=".5"/>
+    <path d="M168 280 L165 314" stroke-opacity=".65"/>
+    <path d="M190 350 L187 380" stroke-opacity=".55"/>
+    <path d="M34 330 L31 362" stroke-opacity=".6"/>
+    <path d="M8 260 L5 290" stroke-opacity=".5"/>
+    <path d="M96 372 L93 396" stroke-opacity=".45"/>
+    <path d="M172 200 L169 226" stroke-opacity=".5"/>
+  </g>
+</svg>

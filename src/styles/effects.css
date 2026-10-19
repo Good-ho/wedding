@@ -1,0 +1,358 @@
+/* ---------- 연출 A: 눈 감고 시간 여행 ---------- */
+.intro {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--sky-2);
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: url(../../assets/svg/grain.svg);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--dusk);
+}
+.cover__scene,
+.cover__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+.cover__photo { filter: sepia(0.25) saturate(1.1) contrast(1.02); }
+/* 초점이 맞는 듯한 연출용 흐림 복사본(정적 filter, opacity만 애니메이션) */
+.cover__scene--blur { display: none; filter: blur(16px); }
+.js:not(.fx-off) .cover__scene--blur { display: block; }
+.cover__photo:not([hidden]) ~ .cover__scene { display: none; }
+.cover__fx {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 108% -6%, rgba(255, 176, 96, 0.3), transparent 46%),
+    radial-gradient(ellipse at 50% 58%, transparent 52%, rgba(24, 14, 10, 0.38) 100%),
+    linear-gradient(180deg, rgba(38, 46, 58, 0.32) 0%, transparent 32%);
+  pointer-events: none;
+}
+
+.bokeh { position: absolute; inset: 0; pointer-events: none; }
+.bokeh i {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 244, 214, 0.95), rgba(255, 230, 180, 0) 70%);
+  opacity: 0.2;
+  animation: bokeh var(--d) ease-in-out infinite alternate;
+  animation-delay: var(--l);
+}
+@keyframes bokeh {
+  from { opacity: 0.12; transform: translate3d(0, 0, 0) scale(0.9); }
+  to { opacity: 0.5; transform: translate3d(10px, -18px, 0) scale(1.1); }
+}
+
+.cover__content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 11%;
+  padding: 0 24px;
+  text-align: center;
+  color: var(--cream);
+  text-shadow: 0 1px 14px rgba(30, 24, 30, 0.45);
+}
+.swash { display: block; width: 58%; max-width: 220px; height: auto; margin: 0 auto 14px; overflow: visible; }
+.swash path { fill: none; stroke: var(--sun); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; opacity: 0.85; }
+.js:not(.fx-off) .swash path { stroke-dashoffset: 1; }
+
+/* 표지의 생동감: 바다 반짝임, 날아가는 새, 바람에 흔들리는 풀 */
+.cover__life { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.js:not(.fx-off) .cover__life { opacity: 0; }
+.glint {
+  fill: var(--cream);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: twinkle var(--d) ease-in-out infinite;
+  animation-delay: var(--l);
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.4, 1); }
+  50% { opacity: 0.95; transform: scale(1.3, 1); }
+}
+[data-quality="low"] .glint:nth-child(n + 11) { display: none; }
+.bird { animation: fly var(--d) linear infinite; animation-delay: var(--l); }
+.bird path {
+  fill: none;
+  stroke: var(--bird);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  opacity: 0.7;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: flap 0.9s ease-in-out infinite alternate;
+}
+@keyframes fly { from { transform: translate(430px, 0); } to { transform: translate(-40px, -26px); } }
+@keyframes flap { from { transform: scaleY(1); } to { transform: scaleY(0.35); } }
+.grass path {
+  fill: none;
+  stroke: var(--grass);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0.85;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: sway 3.6s ease-in-out infinite alternate;
+}
+.grass path:nth-child(2n) { animation-duration: 4.4s; animation-delay: -1.2s; }
+.grass path:nth-child(3n) { animation-duration: 5.2s; animation-delay: -2.6s; }
+@keyframes sway { from { transform: rotate(-3deg); } to { transform: rotate(4deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .cover__life *, .cover__life { animation: none !important; }
+  .glint { opacity: 0.6; }
+}
+.cover__title { margin: 0; }
+.cover__names { display: block; font-size: clamp(2rem, 9.5vw, 2.5rem); letter-spacing: 0.06em; }
+.cover__names i { font-family: var(--display); font-style: italic; color: var(--amber-soft); margin: 0 0.12em; }
+.cover__lead { display: block; margin-top: 8px; font-size: 1.125rem; letter-spacing: 0.4em; text-indent: 0.4em; }
+.cover__date { margin: 22px 0 0; }
+.cover__dday {
+  display: inline-block;
+  margin: 10px 0 0;
+  padding: 2px 16px;
+  border: 1px solid var(--cream);
+  border-radius: 999px;
+  font-family: var(--display);
+  font-size: 1.125rem;
+  letter-spacing: 0.08em;
+  font-variant-numeric: lining-nums;
+}
+.cover__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: calc(24px + var(--safe-b));
+  z-index: 2;
+  width: 1px;
+  height: 44px;
+  background: rgba(255, 246, 230, 0.35);
+  overflow: hidden;
+}
+.cover__scroll span { display: block; width: 100%; height: 40%; background: var(--cream); animation: scroll-hint 1.6s ease-in-out infinite; }
+@keyframes scroll-hint { from { transform: translateY(-100%); } to { transform: translateY(260%); } }
+.js:not(.fx-off) [data-cover] { opacity: 0; }
+
+/* 게이트: 벽장 어둠 */
+.gate, .intro__flash { display: none; }
+.js:not(.fx-off).gate-on .gate { display: flex; }
+.js:not(.fx-off) .intro__flash { display: block; }
+
+/* .gate 자체는 stacking context를 만들지 않아 bg(5) < ui(8) < flash(9) 순서가 유지된다. */
+.gate {
+  position: absolute;
+  inset: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px calc(40px + var(--safe-b));
+  color: var(--amber-soft);
+  touch-action: none;
+  pointer-events: none;
+}
+.gate__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 40%, var(--night-2) 0%, var(--night) 70%);
+}
+.gate__coats { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.gate__light {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  margin-left: -70px;
+  background: linear-gradient(90deg, transparent, rgba(255, 226, 170, 0.14) 30%, rgba(255, 240, 210, 0.95) 50%, rgba(255, 226, 170, 0.14) 70%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 16%, #000 70%, transparent);
+  mask-image: linear-gradient(180deg, transparent, #000 16%, #000 70%, transparent);
+  transform: scaleX(0.05);
+  opacity: 0.8;
+}
+.gate__dust { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.gate__dust i {
+  position: absolute;
+  left: var(--x);
+  bottom: -8px;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  background: var(--amber-soft);
+  opacity: 0;
+  animation: dust var(--d) linear infinite;
+  animation-delay: var(--l);
+}
+@keyframes dust {
+  0% { opacity: 0; transform: translate3d(0, 0, 0); }
+  15% { opacity: 0.85; }
+  85% { opacity: 0.5; }
+  100% { opacity: 0; transform: translate3d(var(--dx), -90vh, 0); }
+}
+[data-quality="low"] .gate__dust i:nth-child(n + 8) { display: none; }
+[data-quality="low"] .bokeh i:nth-child(n + 5) { display: none; }
+
+.gate__ui { position: relative; z-index: 8; pointer-events: auto; text-align: center; }
+.gate__text { margin: 0 0 26px; font-size: 1.125rem; letter-spacing: 0.04em; line-height: 1.7; text-shadow: 0 1px 12px var(--night); }
+.hold {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--amber-soft);
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
+}
+.hold svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+.hold circle { fill: none; stroke-width: 3; }
+.hold .track { stroke: rgba(231, 198, 143, 0.25); }
+.hold .bar { stroke: var(--amber-soft); stroke-linecap: round; stroke-dasharray: 276.5; stroke-dashoffset: 276.5; }
+.hold__dot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 78px;
+  height: 78px;
+  margin: -39px 0 0 -39px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(231, 198, 143, 0.32), rgba(231, 198, 143, 0.06) 70%);
+  animation: beat 1.6s ease-in-out infinite;
+}
+.hold.ready .hold__dot { animation-duration: 0.5s; }
+.hold span { position: relative; font-family: var(--sans); font-size: 0.9375rem; }
+@keyframes beat { 0%, 100% { transform: scale(0.94); } 50% { transform: scale(1.06); } }
+.gate__hint { min-height: 1.8em; margin: 12px 0 0; font-family: var(--sans); font-size: 0.9375rem; }
+.gate__skip {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  background: transparent;
+  color: var(--amber-soft);
+  opacity: 0.75;
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* 문이 활짝 열릴 때의 눈부신 빛. 게이트(UI 포함)를 덮어야 하므로 가장 위에 둔다. */
+.intro__flash { position: absolute; inset: 0; z-index: 9; background: var(--sun); opacity: 0; pointer-events: none; }
+
+/* 필름 빛샘: 넓은 그라디언트 한 장을 가로로 쓸어 지나가게 한다(transform/opacity만 사용). */
+.leak {
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -60%;
+  right: -60%;
+  z-index: 10;
+  background:
+    radial-gradient(ellipse 22% 48% at 38% 42%, var(--leak-1), transparent 70%),
+    radial-gradient(ellipse 18% 36% at 56% 66%, var(--leak-2), transparent 70%),
+    radial-gradient(ellipse 14% 30% at 47% 18%, var(--leak-3), transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+}
+.fx-off .leak { display: none; }
+
+/* 꽃잎: gsap이 위치를 정한다 */
+.petals { position: fixed; inset: 0; z-index: 44; overflow: hidden; pointer-events: none; }
+.petal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--c, var(--petal-1));
+  border-radius: 80% 0 80% 0;
+  opacity: 0.85;
+  will-change: transform;
+}
+.fx-off .petals { display: none; }
+
+/* ---------- 연출 B: 필름 현상 폴라로이드 ---------- */
+.people-sec { padding-bottom: 32px; }
+.people { display: grid; gap: 72px; padding: 16px 0 72px; }
+.polaroid {
+  --tilt: -2deg;
+  position: relative;
+  width: 82%;
+  margin: 0;
+  padding: 12px 12px 20px;
+  background: var(--polaroid);
+  box-shadow: 0 10px 26px var(--shadow), 0 1px 3px var(--shadow);
+  transform: rotate(var(--tilt));
+}
+.polaroid--r { --tilt: 2.2deg; margin-left: auto; }
+.polaroid__photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: var(--paper-2); }
+.polaroid__photo img { width: 100%; height: 100%; object-fit: cover; filter: sepia(0.28) saturate(1.08) contrast(1.03); }
+.ph-warm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--ink-dim);
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.25rem;
+  background: linear-gradient(180deg, var(--sky-1), var(--sky-3));
+}
+/* 현상: 탁한 청록빛 → 흑백에 가까운 색 → 원래 색. 위에서부터 차례로 걷힌다(정적 filter + opacity만). */
+.polaroid__layer { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+.polaroid__gray { filter: grayscale(1) contrast(0.8) brightness(1.08); }
+.polaroid__gray > * { width: 100%; height: 100%; object-fit: cover; }
+.polaroid__tint { background: var(--tint); }
+.polaroid__murk { background: var(--murk); }
+.js:not(.fx-off) .polaroid__layer { opacity: 1; }
+.js:not(.fx-off) .polaroid { opacity: 0; }
+.js:not(.fx-off) [data-fx="develop"] { cursor: pointer; -webkit-user-select: none; user-select: none; }
+.polaroid__hint {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--hand);
+  font-size: 1.25rem;
+  color: var(--amber-deep);
+  opacity: 0;
+}
+.fx-off .polaroid__hint { display: none; }
+.tape {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  width: 84px;
+  height: 26px;
+  margin-left: -42px;
+  background: rgba(231, 198, 143, 0.6);
+  transform: rotate(-3deg);
+}
+.polaroid__cap { padding-top: 14px; text-align: center; }
+.polaroid__role { display: block; font-family: var(--display); font-style: italic; font-size: 1.125rem; color: var(--amber-deep); }
+.polaroid__name { display: block; font-family: var(--hand); font-size: 2.375rem; line-height: 1.2; }
+.polaroid__parents { display: block; font-size: 0.9375rem; color: var(--ink-dim); }

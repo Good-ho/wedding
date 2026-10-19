@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- 카메라 바로 앞의 코트 소매: 초점이 나간 전경 -->
+    <filter id="dof" x="-30%" y="-10%" width="160%" height="120%"><feGaussianBlur stdDeviation="7"/></filter>
+    <linearGradient id="fl" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#050302"/>
+      <stop offset=".8" stop-color="#0d0805"/>
+      <stop offset="1" stop-color="#4a2e1a"/>
+    </linearGradient>
+    <linearGradient id="fr" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0" stop-color="#050302"/>
+      <stop offset=".8" stop-color="#0d0805"/>
+      <stop offset="1" stop-color="#4a2e1a"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#dof)">
+    <path fill="url(#fl)" d="M-60 -20 L70 -20 C84 140 92 320 86 520 C82 660 64 780 40 880 L-60 880 Z"/>
+    <path fill="url(#fr)" d="M450 -20 L322 -20 C306 160 298 340 306 540 C312 680 330 790 352 880 L450 880 Z"/>
+  </g>
+</svg>

@@ -1,0 +1,239 @@
+ <!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#0e0b09">
+  <meta name="robots" content="noindex, nofollow">
+  <title>결혼합니다</title>
+  <meta name="description" content="저희 결혼식에 초대합니다.">
+
+  <!-- TODO: 배포 후 og:url, og:image를 실제 절대 URL로 교체(카톡 링크 미리보기에 필수) -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:title" content="결혼합니다">
+  <meta property="og:description" content="저희 결혼식에 초대합니다.">
+  <meta property="og:url" content="https://example.com/">
+  <meta property="og:image" content="https://example.com/assets/img/og.jpg">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="400">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script>
+    document.documentElement.classList.add('js', 'gated');
+    // JS 로딩/실행 실패 시 숨겨진 콘텐츠와 게이트를 걷어낸다.
+    setTimeout(function () {
+      if (!window.__ready) document.documentElement.classList.add('fx-off');
+    }, 4000);
+  </script>
+  <link rel="stylesheet" href="src/styles/fonts.css">
+  <link rel="stylesheet" href="src/styles/base.css">
+  <link rel="stylesheet" href="src/styles/effects.css">
+  <script src="vendor/gsap.min.js" defer></script>
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <noscript><p class="noscript">이 청첩장은 JavaScript가 필요합니다.</p></noscript>
+
+  <main>
+    <!-- 1. 인트로 (연출 A): 벽장 게이트 → 표지 -->
+    <section id="intro" class="intro grain" aria-label="표지">
+      <div class="cover">
+        <img class="cover__scene" src="assets/svg/scene.svg" alt="" width="390" height="844" decoding="async">
+        <img class="cover__photo" id="cover-photo" alt="" hidden>
+        <img class="cover__scene cover__scene--blur" src="assets/svg/scene.svg" alt="" width="390" height="844" decoding="async">
+        <!-- scene.svg와 같은 viewBox/크롭이라 어떤 화면 비율에서도 그림과 정확히 겹친다 -->
+        <svg class="cover__life" viewBox="0 0 390 844" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <g id="glints"></g>
+          <g class="birds">
+            <g transform="translate(0 432)"><g class="bird" style="--d:44s;--l:-30s"><path d="M-10 0 q5 -5 10 0 q5 -5 10 0"/></g></g>
+            <g transform="translate(0 450) scale(.8)"><g class="bird" style="--d:44s;--l:-28.6s"><path d="M-10 0 q5 -5 10 0 q5 -5 10 0"/></g></g>
+            <g transform="translate(0 458) scale(.6)"><g class="bird" style="--d:52s;--l:-12s"><path d="M-10 0 q5 -5 10 0 q5 -5 10 0"/></g></g>
+          </g>
+          <g class="grass">
+            <path d="M10 844 C12 812 6 790 16 770"/>
+            <path d="M26 844 C26 820 34 800 30 780"/>
+            <path d="M44 844 C40 826 50 810 54 792"/>
+            <path d="M364 844 C366 816 360 800 370 780"/>
+            <path d="M378 844 C376 826 382 812 380 796"/>
+            <path d="M346 844 C344 828 352 816 356 802"/>
+          </g>
+        </svg>
+        <div class="bokeh" id="bokeh" aria-hidden="true"></div>
+        <div class="cover__fx" aria-hidden="true"></div>
+        <div class="cover__content">
+          <svg class="swash" viewBox="0 0 200 16" aria-hidden="true"><path d="M6 11 C44 3 92 15 132 8 C156 4 178 5 194 9" pathLength="1"/></svg>
+          <h1 class="cover__title">
+            <span class="cover__names" data-cover><span data-bind="groom.name"></span> <i>&amp;</i> <span data-bind="bride.name"></span></span>
+            <span class="cover__lead" data-cover>결혼합니다</span>
+          </h1>
+          <p class="cover__date" data-cover id="intro-date"></p>
+          <p class="cover__dday" data-cover id="intro-dday"></p>
+        </div>
+        <div class="cover__scroll" data-cover aria-hidden="true"><span></span></div>
+      </div>
+
+      <div class="gate" id="gate">
+        <div class="gate__bg" aria-hidden="true">
+          <div class="gate__light" id="gate-light"></div>
+          <img class="gate__coats" id="coats-l" src="assets/svg/closet-l.svg" alt="" width="390" height="844" decoding="async">
+          <img class="gate__coats" id="coats-r" src="assets/svg/closet-r.svg" alt="" width="390" height="844" decoding="async">
+          <div class="gate__dust" id="gate-dust"></div>
+          <img class="gate__coats" id="coats-front" src="assets/svg/closet-front.svg" alt="" width="390" height="844" decoding="async">
+        </div>
+        <div class="gate__ui" id="gate-ui">
+          <p class="gate__text" data-bind="intro.gateText"></p>
+          <button type="button" class="hold" id="gate-btn" aria-label="꾹 눌렀다 놓아서 청첩장 열기">
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <circle class="track" cx="50" cy="50" r="44"/>
+              <circle class="bar" id="gate-ring" cx="50" cy="50" r="44"/>
+            </svg>
+            <i class="hold__dot" aria-hidden="true"></i>
+            <span>꾹 누르기</span>
+          </button>
+          <p class="gate__hint" id="gate-hint" aria-live="polite"></p>
+          <button type="button" class="gate__skip" id="gate-skip">그냥 열기</button>
+        </div>
+      </div>
+      <div class="intro__flash" aria-hidden="true"></div>
+      <div class="leak" aria-hidden="true"></div>
+    </section>
+
+    <!-- 2. 인사말 -->
+    <section id="greeting" class="section reveal">
+      <span class="kicker">Invitation</span>
+      <h2 class="section__title" id="greeting-title"></h2>
+      <p class="greeting" id="greeting-lines"></p>
+    </section>
+
+    <!-- 3. 두 사람 (연출 B) -->
+    <section id="people" class="section people-sec">
+      <div class="reveal">
+        <span class="kicker">The two of us</span>
+        <h2 class="section__title">두 사람</h2>
+      </div>
+      <div class="people">
+        <figure class="polaroid" data-fx="develop" data-tilt="-2" id="person-groom"></figure>
+        <figure class="polaroid polaroid--r" data-fx="develop" data-tilt="2.2" id="person-bride"></figure>
+      </div>
+    </section>
+
+    <!-- 6. 카운트다운 -->
+    <section id="countdown" class="section reveal">
+      <span class="kicker">Back to today</span>
+      <h2 class="section__title">예식까지</h2>
+      <div class="count" id="count" role="timer" aria-live="off">
+        <div><b data-u="d">00</b><span>일</span></div>
+        <div><b data-u="h">00</b><span>시간</span></div>
+        <div><b data-u="m">00</b><span>분</span></div>
+        <div><b data-u="s">00</b><span>초</span></div>
+      </div>
+      <p class="count__msg" id="dday-msg"></p>
+      <div class="cal" id="calendar"></div>
+    </section>
+
+    <!-- 7. 예식 정보 -->
+    <section id="info" class="section reveal">
+      <span class="kicker">The day</span>
+      <h2 class="section__title">예식 안내</h2>
+      <div class="card info" id="info-card"></div>
+    </section>
+
+    <!-- 8. 갤러리 -->
+    <section id="gallery" class="section reveal">
+      <span class="kicker">Moments</span>
+      <h2 class="section__title">우리의 순간</h2>
+      <div class="gallery" id="gallery-grid"></div>
+    </section>
+
+    <!-- 9. 오시는 길 -->
+    <section id="map" class="section reveal">
+      <span class="kicker">Getting there</span>
+      <h2 class="section__title">오시는 길</h2>
+      <div class="map" id="map-box"></div>
+      <p class="map__place" id="map-place"></p>
+      <div class="map__links" id="map-links"></div>
+      <ul class="transport" id="transport"></ul>
+    </section>
+
+    <!-- 10. 마음 전하실 곳 -->
+    <section id="account" class="section reveal">
+      <h2 class="section__title">마음 전하실 곳</h2>
+      <p class="section__desc">참석이 어려우신 분들을 위해 계좌번호를 안내드립니다.</p>
+      <div class="accounts" id="accounts"></div>
+    </section>
+
+    <!-- 11. 공유하기 -->
+    <section id="share" class="section reveal">
+      <h2 class="section__title">공유하기</h2>
+      <div class="share">
+        <button type="button" class="btn btn--kakao" id="btn-kakao" hidden>카카오톡 공유</button>
+        <button type="button" class="btn" id="btn-copy-link">링크 복사</button>
+        <button type="button" class="btn" id="btn-share" hidden>공유하기</button>
+      </div>
+    </section>
+
+    <!-- 13. 푸터: 표지의 해변로 돌아와 해가 진다 -->
+    <footer class="footer" id="footer">
+      <div class="footer__scene" aria-hidden="true">
+        <img src="assets/svg/scene-dusk.svg" alt="" width="390" height="844" loading="lazy" decoding="async">
+        <svg class="sunset" viewBox="0 0 390 844" preserveAspectRatio="xMidYMax slice">
+          <defs>
+            <linearGradient id="dusk-sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" style="stop-color: var(--dusk-1)"/>
+              <stop offset=".55" style="stop-color: var(--dusk-2)"/>
+              <stop offset="1" style="stop-color: var(--dusk-3)"/>
+            </linearGradient>
+            <radialGradient id="sun-glow">
+              <stop offset=".45" style="stop-color: var(--sun)"/>
+              <stop offset="1" style="stop-color: var(--sun); stop-opacity: 0"/>
+            </radialGradient>
+            <clipPath id="horizon"><rect width="390" height="520"/></clipPath>
+          </defs>
+          <rect class="sunset__sky" width="390" height="521" fill="url(#dusk-sky)"/>
+          <g class="sunset__stars">
+            <circle cx="62" cy="392" r="1.3"/><circle cx="118" cy="426" r="1"/><circle cx="262" cy="384" r="1.2"/>
+            <circle cx="336" cy="414" r=".9"/><circle cx="206" cy="406" r="1"/><circle cx="26" cy="430" r=".9"/>
+          </g>
+          <g clip-path="url(#horizon)">
+            <g class="sunset__sun">
+              <circle cx="195" cy="506" r="36" fill="url(#sun-glow)" opacity=".6"/>
+              <circle class="sunset__disc" cx="195" cy="506" r="21"/>
+              <circle class="sunset__disc sunset__disc--red" cx="195" cy="506" r="21"/>
+            </g>
+          </g>
+          <rect class="sunset__sea" y="520" width="390" height="324"/>
+        </svg>
+      </div>
+      <div class="footer__body reveal">
+        <p class="footer__thanks">Thank you</p>
+        <p>귀한 시간 내어 축복해 주셔서<br>진심으로 감사드립니다.</p>
+        <p class="footer__names"><span data-bind="groom.name"></span> &amp; <span data-bind="bride.name"></span></p>
+      </div>
+      <p class="footer__credit">Music: Pachelbel's Canon, Lee Galloway, CC BY-SA 3.0 (creativecommons.org/licenses/by-sa/3.0), converted to mp3</p>
+    </footer>
+  </main>
+
+  <!-- 갤러리 확대 -->
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="사진 확대">
+    <button type="button" class="lightbox__close" id="lightbox-close" aria-label="닫기">&times;</button>
+    <div class="lightbox__track" id="lightbox-track"></div>
+    <button type="button" class="lightbox__nav lightbox__nav--prev" id="lightbox-prev" aria-label="이전 사진">&#8249;</button>
+    <button type="button" class="lightbox__nav lightbox__nav--next" id="lightbox-next" aria-label="다음 사진">&#8250;</button>
+    <p class="lightbox__count" id="lightbox-count"></p>
+  </div>
+
+  <!-- 전 구간 공통 UI -->
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="fabs">
+    <button type="button" class="fab" id="fab-top" aria-label="맨 위로" hidden>
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 5l-7 7h4v7h6v-7h4z" fill="currentColor"/></svg>
+    </button>
+    <button type="button" class="fab" id="fab-bgm" aria-label="배경음악 재생" aria-pressed="false" hidden>
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 4v11.3A3.5 3.5 0 1 0 11 18.5V8h6V4z" fill="currentColor"/></svg>
+    </button>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
