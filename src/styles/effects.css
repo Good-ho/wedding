@@ -32,7 +32,7 @@
   object-fit: cover;
   object-position: 50% 50%;
 }
-.cover__photo { filter: sepia(0.25) saturate(1.1) contrast(1.02); }
+.cover__photo { filter: sepia(0.12) saturate(0.92) contrast(1.0); }
 /* 초점이 맞는 듯한 연출용 흐림 복사본(정적 filter, opacity만 애니메이션) */
 .cover__scene--blur { display: none; filter: blur(16px); }
 .js:not(.fx-off) .cover__scene--blur { display: block; }
@@ -41,9 +41,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 108% -6%, rgba(255, 176, 96, 0.3), transparent 46%),
-    radial-gradient(ellipse at 50% 58%, transparent 52%, rgba(24, 14, 10, 0.38) 100%),
-    linear-gradient(180deg, rgba(38, 46, 58, 0.32) 0%, transparent 32%);
+    radial-gradient(circle at 108% -6%, rgba(255, 188, 120, 0.18), transparent 42%),
+    radial-gradient(ellipse at 50% 58%, transparent 54%, rgba(24, 14, 10, 0.18) 100%),
+    linear-gradient(180deg, rgba(38, 46, 58, 0.18) 0%, transparent 30%);
   pointer-events: none;
 }
 
