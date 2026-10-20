@@ -54,7 +54,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   background: var(--paper);
-  color-scheme: light;
+  color-scheme: only light;
 }
 .js:not(.fx-off).gated,
 .js:not(.fx-off).gated body { height: 100%; overflow: hidden; }
