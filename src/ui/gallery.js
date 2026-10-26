@@ -17,7 +17,7 @@ export function initGallery(items) {
       ? h('img', { src: it.thumb || it.src, alt: it.alt || '', loading: 'lazy', decoding: 'async', width: '300', height: '400' })
       : h('span', { class: 'ph' });
     grid.append(h('button', {
-      type: 'button', class: 'gallery__item', 'aria-label': `사진 ${i + 1} 확대`,
+      type: 'button', class: it.wide ? 'gallery__item gallery__item--wide': 'gallery__item', 'aria-label': `사진 ${i + 1} 확대`,
       style: `--i:${i}`,
       onclick: (e) => open(i, e.currentTarget),
     }, media));
